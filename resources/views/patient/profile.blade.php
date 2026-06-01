@@ -155,12 +155,30 @@
 <script>
 function previewPhoto(input) {
     if (input.files && input.files[0]) {
+        const file = input.files[0];
+        // Validate file type and size
+        if (!file.type.match('image.*')) return;
+        if (file.size > 2 * 1024 * 1024) {
+            alert('Image must be under 2MB.');
+            input.value = '';
+            return;
+        }
         const reader = new FileReader();
-        reader.onload = e => {
-            const wrap = document.getElementById('avatarWrap');
-            wrap.innerHTML = `<img src="${e.target.result}" style="width:100%;height:100%;object-fit:cover;">`;
+        reader.onload = function(e) {
+            const wrap = document.getElementById('avatarWrap') 
+                      ?? document.getElementById('avatar-wrap');
+            if (!wrap) return;
+            // Clear and insert a fresh img
+            wrap.innerHTML = '';
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;';
+            wrap.appendChild(img);
         };
-        reader.readAsDataURL(input.files[0]);
+        reader.onerror = function() {
+            alert('Could not read file. Please try again.');
+        };
+        reader.readAsDataURL(file);
     }
 }
 </script>

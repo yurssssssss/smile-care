@@ -155,7 +155,7 @@ public function updateProfile(Request $request)
             \Storage::disk('public')->delete($user->profile_photo);
         }
         $path = $request->file('profile_photo')->store('profiles', 'public');
-        $user->profile_photo = $path;
+        $user->update(['profile_photo' => $path]);
     }
 
     $user->first_name = $request->first_name;
