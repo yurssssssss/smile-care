@@ -18,7 +18,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin'   => AdminMiddleware::class,
             'patient' => PatientMiddleware::class,
             'dentist' => DentistMiddleware::class,
+            
         ]);
+           $middleware->trustProxies(at: '*');
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
