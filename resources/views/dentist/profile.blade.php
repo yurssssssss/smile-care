@@ -261,7 +261,7 @@ function previewPhoto(input) {
         };
         reader.readAsDataURL(file);
     }
-}
+}s
 
 (function () {
     const hamburger = document.getElementById('scHamburger');
