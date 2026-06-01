@@ -41,8 +41,6 @@
         </p>
     </div>
 
-    <p style="font-size:12px;color:#aaa;margin-top:16px;">
-        Admin? <a href="{{ route('admin.register') }}" style="color:#aaa;">Set up admin account →</a>
-    </p>
+    
 </div>
 @endsection
