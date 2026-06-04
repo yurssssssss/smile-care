@@ -50,20 +50,20 @@ class AdminController extends Controller
         return view('admin.appointments', compact('appointments'));
     }
 
-    public function updateStatus(Request $request, Appointment $appointment)
-    {
-        $request->validate([
-            'status'      => 'required|in:pending,confirmed,completed,cancelled',
-            'admin_notes' => 'nullable|string|max:500',
-        ]);
-
-        $appointment->update([
-            'status'      => $request->status,
-            'admin_notes' => $request->admin_notes,
-        ]);
-
-        return back()->with('success', 'Appointment status updated to ' . ucfirst($request->status) . '.');
+ public function updateStatus(Request $request, Appointment $appointment)
+{
+    if ($appointment->status === 'completed') {
+        return back()->with('error', 'Completed appointments cannot be changed.');
     }
+
+    $request->validate([
+        'status'      => 'required|in:pending,confirmed,completed,cancelled',
+        'admin_notes' => 'nullable|string|max:500',
+    ]);
+
+    $appointment->update(['status' => $request->status]);
+    return back()->with('success', 'Status updated to ' . ucfirst($request->status) . '.');
+}
 
     /* ──────────────────────────────────────────
      | PATIENTS

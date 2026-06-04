@@ -136,17 +136,24 @@ body { margin:0; padding:0; background:#F5F5F3; }
                                 </td>
                                 <td><span class="sc-badge {{ $appt->status_badge_class }}">{{ ucfirst($appt->status) }}</span></td>
                                 <td>
-                                    <form method="POST" action="{{ route('admin.appointments.status', $appt) }}"
-                                        class="d-flex gap-2 align-items-center flex-wrap">
-                                        @csrf @method('PATCH')
-                                        <select name="status" class="sc-form-control"
-                                            style="width:auto;font-size:12px;padding:5px 8px;flex:1;min-width:110px;">
-                                            @foreach(['pending','confirmed','completed','cancelled'] as $s)
-                                            <option value="{{ $s }}" {{ $appt->status === $s ? 'selected' : '' }}>{{ ucfirst($s) }}</option>
-                                            @endforeach
-                                        </select>
-                                        <button type="submit" class="sc-btn sc-btn-primary sc-btn-sm">Save</button>
-                                    </form>
+                                    @if($appt->status === 'completed')
+                                        <span class="sc-badge sc-badge-green" style="opacity:.75;">
+                                            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><path d="M20 6L9 17l-5-5"/></svg>
+                                            Completed
+                                        </span>
+                                    @else
+                                        <form method="POST" action="{{ route('admin.appointments.status', $appt) }}"
+                                            class="d-flex gap-2 align-items-center flex-wrap">
+                                            @csrf @method('PATCH')
+                                            <select name="status" class="sc-form-control"
+                                                style="width:auto;font-size:12px;padding:5px 8px;flex:1;min-width:110px;">
+                                                @foreach(['pending','confirmed','completed','cancelled'] as $s)
+                                                <option value="{{ $s }}" {{ $appt->status === $s ? 'selected' : '' }}>{{ ucfirst($s) }}</option>
+                                                @endforeach
+                                            </select>
+                                            <button type="submit" class="sc-btn sc-btn-primary sc-btn-sm">Save</button>
+                                        </form>
+                                    @endif
                                 </td>
                             </tr>
                             @empty
